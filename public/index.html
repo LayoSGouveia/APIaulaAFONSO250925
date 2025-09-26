@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Buscar Carro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Digite o nome do seu carro:</h1>
+
+    <input type="text" id="inputCarro" placeholder="Ex: Fusca" />
+    <button onclick="buscarCarro()">Buscar</button>
+
+    <p id="resposta"></p>
+  </div>
+
+  <script>
+    function buscarCarro() {
+      const carro = document.getElementById('inputCarro').value.trim();
+
+      if (!carro) {
+        document.getElementById('resposta').textContent = 'Por favor, digite um nome de carro.';
+        return;
+      }
+
+      fetch(`/api/:${encodeURIComponent(carro)}`)
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById('resposta').textContent = data;
+        })
+        .catch(error => {
+          document.getElementById('resposta').textContent = 'Erro ao buscar o carro.';
+          console.error('Erro:', error);
+        });
+    }
+  </script>
+</body>
+</html>
